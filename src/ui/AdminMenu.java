@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class AdminMenu {
-
+    static HotelResource hotelResource = HotelResource.getInstance();
+    static AdminResource adminResource = AdminResource.getInstance();
     public static void printMenu() {
         System.out.println("Admin Menu:");
         System.out.println("---------------------------------------------");
@@ -52,27 +53,27 @@ public class AdminMenu {
 
     public static void displayAllCustomers() {
         System.out.println("All Customer List:");
-        if (AdminResource.getAllCustomers().isEmpty()) {
+        if (adminResource.getAllCustomers().isEmpty()) {
             System.out.println("No Customer Added");
         } else {
-            for (Customer customer : AdminResource.getAllCustomers()) {
+            for (Customer customer : adminResource.getAllCustomers()) {
                 System.out.println(customer);
             }
         }
     }
     public static void displayAllRooms() {
         System.out.println("All Room List: ");
-        if (AdminResource.getAllRooms().isEmpty()) {
+        if (adminResource.getAllRooms().isEmpty()) {
             System.out.println("No Room Added");
         } else {
-            for (IRoom room : AdminResource.getAllRooms()) {
+            for (IRoom room : adminResource.getAllRooms()) {
                 System.out.println(room);
             }
         }
     }
     public static void displayAllReservations() {
         System.out.println("All Reservations List: ");
-        AdminResource.displayAllReservations();
+        adminResource.displayAllReservations();
     }
 
     public static void addARoom() {
@@ -119,6 +120,6 @@ public class AdminMenu {
             if (!anotherAdding.equalsIgnoreCase("y"))
                 isAdding = false;
         }
-        AdminResource.addRoom(roomList);
+        adminResource.addRoom(roomList);
     }
 }

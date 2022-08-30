@@ -11,6 +11,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MainMenu {
+    static HotelResource hotelResource = HotelResource.getInstance();
+    static AdminResource adminResource = AdminResource.getInstance();
     public static void printMenu() {
         System.out.println("Main Menu:");
         System.out.println("---------------------------------------------");
@@ -61,13 +63,13 @@ public class MainMenu {
         Scanner dateScanner = new Scanner(System.in);
         Date checkInDate = getCheckInDate(dateScanner);
         Date checkOutDate = getCheckoutDate(dateScanner, checkInDate);
-        List<IRoom> availableRooms = new ArrayList<IRoom>(HotelResource.findARoom(checkInDate, checkOutDate));
+        List<IRoom> availableRooms = new ArrayList<IRoom>(hotelResource.findARoom(checkInDate, checkOutDate));
         boolean isRecommendation = false;
         if (availableRooms.isEmpty()) {
             System.out.println("No room available, trying to get recommendations.");
             Date recommendCheckInDate = getRecommendDate(checkInDate);
             Date recommendCheckOutDate = getRecommendDate(checkOutDate);
-            List<IRoom> recommendAvailableRooms = new ArrayList<IRoom>(HotelResource.findARoom(recommendCheckInDate, recommendCheckOutDate));
+            List<IRoom> recommendAvailableRooms = new ArrayList<IRoom>(hotelResource.findARoom(recommendCheckInDate, recommendCheckOutDate));
             if (recommendAvailableRooms.isEmpty()) {
                 System.out.println("No room available for your date range.");
                 return;
@@ -165,12 +167,12 @@ public class MainMenu {
         }
         System.out.println("Please enter your email:");
         String email = scanner.nextLine();
-        Customer customer = AdminResource.getCustomer(email);
+        Customer customer = adminResource.getCustomer(email);
         if (customer == null) {
             System.out.println("No customer exist, please go back create account.");
             return;
         }
-        HotelResource.bookARoom(email, HotelResource.getRoom(roomNumber), checkInDate, checkOutDate);
+        hotelResource.bookARoom(email, hotelResource.getRoom(roomNumber), checkInDate, checkOutDate);
         System.out.println("Your room is reserved.");
     }
 
@@ -178,12 +180,12 @@ public class MainMenu {
         Scanner emailInput = new Scanner(System.in);
         System.out.println("Please enter customer email:");
         String email = emailInput.nextLine();
-        Customer customer = HotelResource.getCustomer(email);
+        Customer customer = hotelResource.getCustomer(email);
         if(customer == null) {
             System.out.println("No customer exist");
             return;
         }
-        Collection< Reservation> reservationCollection = HotelResource.getCustomerReservations(email);
+        Collection< Reservation> reservationCollection = hotelResource.getCustomerReservations(email);
         if(reservationCollection.isEmpty()) {
             System.out.println("You have no reservations");
             return;
@@ -211,26 +213,26 @@ public class MainMenu {
             email = accountScanner.nextLine();
             isMatch = accountEmailPattern.matcher(email).matches();
         }
-        for (Customer customer : AdminResource.getAllCustomers()) {
+        for (Customer customer : adminResource.getAllCustomers()) {
             if (customer.getEmail().equals(email)) {
                 System.out.println("This email is associated with ana existed account.");
                 return;
             }
         }
-        HotelResource.createACustomer(email, firstName, lastname);
+        hotelResource.createACustomer(email, firstName, lastname);
         System.out.println("account created");
 
     }
 
     public static void loadTest() {
-        HotelResource.createACustomer("asd@asd.com", "f1", "l1");
-        HotelResource.createACustomer("zxc@zxc.com", "f2", "l2");
+        hotelResource.createACustomer("asd@asd.com", "f1", "l1");
+        hotelResource.createACustomer("zxc@zxc.com", "f2", "l2");
 
         List<IRoom> roomList = new ArrayList<>();
         roomList.add(new Room("111", 100.0, RoomType.SINGLE));
         roomList.add(new Room("222", 200.0, RoomType.DOUBLE));
         roomList.add(new Room("333", 300.0, RoomType.SINGLE));
-        AdminResource.addRoom(roomList);
+        adminResource.addRoom(roomList);
 
 
 

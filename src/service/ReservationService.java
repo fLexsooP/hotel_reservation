@@ -10,6 +10,13 @@ public class ReservationService {
     public static final Map<String, IRoom> roomMap = new HashMap<>();//key: roomNumber
     public static final Set<Reservation> reservationSet = new HashSet<>();
 
+    private static ReservationService reservationService = null;
+
+    public static ReservationService getInstance() {
+        if (reservationService == null)
+            reservationService = new ReservationService();
+        return reservationService;
+    }
     public void addRoom(IRoom room) {
         roomMap.put(room.getRoomNumber(), room);
     }

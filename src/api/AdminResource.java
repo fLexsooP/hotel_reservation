@@ -7,28 +7,34 @@ import java.util.Collection;
 import java.util.List;
 
 public class AdminResource {
-    public static final CustomerService customerService = new CustomerService();
-    public static final ReservationService reservationService = new ReservationService();
+    public static final CustomerService customerService = CustomerService.getInstance();
+    public static final ReservationService reservationService = ReservationService.getInstance();
 
-    public static Customer getCustomer(String email) {
+    private static AdminResource adminResource = null;
+    public static AdminResource getInstance() {
+        if (adminResource == null)
+            adminResource = new AdminResource();
+        return adminResource;
+    }
+    public Customer getCustomer(String email) {
         return customerService.getCustomer(email);
     }
 
-    public static void addRoom(List<IRoom> rooms) {
+    public void addRoom(List<IRoom> rooms) {
         for (IRoom room : rooms) {
             reservationService.addRoom(room);
         }
     }
 
-    public static Collection<IRoom> getAllRooms() {
+    public Collection<IRoom> getAllRooms() {
         return reservationService.getAllRooms();
     }
 
-    public static Collection<Customer> getAllCustomers() {
+    public Collection<Customer> getAllCustomers() {
         return customerService.getAllCustomers();
     }
 
-    public static void displayAllReservations() {
+    public void displayAllReservations() {
         reservationService.printAllReservation();
     }
 }

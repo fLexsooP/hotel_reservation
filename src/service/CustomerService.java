@@ -9,6 +9,13 @@ import java.util.Set;
 public class CustomerService {
     public static final Set<Customer> setOfCustomer = new HashSet<Customer>();
 
+    private static CustomerService customerService = null;
+
+    public static CustomerService getInstance() {
+        if (customerService == null)
+            customerService = new CustomerService();
+        return customerService;
+    }
     public void addCustomer(String email, String firstName, String lastName) {
         setOfCustomer.add(new Customer(firstName, lastName, email));
     }
