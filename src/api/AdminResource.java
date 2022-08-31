@@ -7,8 +7,8 @@ import java.util.Collection;
 import java.util.List;
 
 public class AdminResource {
-    public static final CustomerService customerService = CustomerService.getInstance();
-    public static final ReservationService reservationService = ReservationService.getInstance();
+    static final CustomerService customerService = CustomerService.getInstance();
+    static final ReservationService reservationService = ReservationService.getInstance();
 
     private static AdminResource adminResource = null;
     public static AdminResource getInstance() {
